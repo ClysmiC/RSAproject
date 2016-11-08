@@ -40,15 +40,20 @@ def get_factors(n):
     
     return (p, q)
 
-# TODO: write code to get d from p, q and e
 def get_key(p, q, e):
+    
+    """ 
+    Calculates coefficients a, b, such that a * high + b * low = 1
+    
+    high: The higher of the two numbers (initially, the modulo number)
+    low: The lower of the two numbers (initially, e)
+
+    Returns a, b
+    """ 
     def euclidean(high, low):
-        remainder = high % low
-        quotient = high // low
+        quotient, remainder = divmod(high, low)
 
         if remainder == 1:
-            # ( high coefficient,
-            #   low coefficient )
             # print "[", high, "] + ", -quotient, " * [", low, "] = [1]"
             return (1, -quotient)
 
@@ -65,6 +70,8 @@ def get_key(p, q, e):
         # print newHighCoefficient, "[", high, "] + ",  newLowCoefficient, "[", low, "] = [1]"
         # sys.stdout.flush()
         # raw_input()
+        
+        assert(newHighCoefficient * high + newLowCoefficient * low == 1)
         return ( newHighCoefficient, newLowCoefficient )
 
     totient = (p - 1) * (q - 1)
@@ -102,7 +109,6 @@ def main():
 
     print "p = ", str(p)
     print "q = ", str(q)
-    sys.stdout.flush()
         
     d = get_key(p, q, e)
     print "your private key:", hex(d).rstrip("L")
